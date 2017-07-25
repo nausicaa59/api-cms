@@ -14,3 +14,13 @@
 $app->get('/', function () use ($app) {
     return $app->version();
 });
+
+
+//Article Route
+$app->get('/article', 'ArticleController@index');
+$app->get('/article/{id:[0-9]+}', 'ArticleController@show');
+$app->post('/article', 'ArticleController@store');
+$app->put('/article/{id:[0-9]+}', 'ArticleController@edit');
+$app->delete('/article/{id:[0-9]+}', 'ArticleController@destroy');
+
+
