@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\RestModel;
 
-class Categorie extends Model 
+class Categorie extends RestModel 
 {
-
     protected $table = 'categories';
     public $timestamps = true;
-
 }

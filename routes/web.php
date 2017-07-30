@@ -16,11 +16,18 @@ $app->get('/', function () use ($app) {
 });
 
 
-//Article Route
-$app->get('/article', 'ArticleController@index');
-$app->get('/article/{id:[0-9]+}', 'ArticleController@show');
-$app->post('/article', 'ArticleController@store');
-$app->put('/article/{id:[0-9]+}', 'ArticleController@edit');
-$app->delete('/article/{id:[0-9]+}', 'ArticleController@destroy');
+//Articles Route
+$app->get('/articles', 'ArticleController@index');
+$app->get('/articles/{id:[0-9]+}', 'ArticleController@show');
+$app->post('/articles', 'ArticleController@store');
+$app->put('/articles/{id:[0-9]+}', 'ArticleController@edit');
+$app->delete('/articles/{id:[0-9]+}', 'ArticleController@destroy');
 
+
+//Categories Route
+$app->get('/categories', 'CategorieController@index');
+$app->get('/categories/{id:[0-9]+}', 'CategorieController@show');
+$app->post('/categories', 'CategorieController@store');
+$app->put('/categories/{id:[0-9]+}', 'CategorieController@edit');
+$app->delete('/categories/{id:[0-9]+}', 'CategorieController@destroy');
 

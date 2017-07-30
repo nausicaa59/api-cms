@@ -23,8 +23,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
-
+$app->withFacades(true, ['App\Helpers\RestHelpers' => 'RestHelpers']);
 $app->withEloquent();
 
 /*
@@ -78,6 +77,7 @@ $app->singleton(
 |
 */
 
+// $app->register(App\Providers\RestServiceProvider::class);
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);

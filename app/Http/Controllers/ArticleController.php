@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Article;
-use App\Categorie;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller 
 {
@@ -14,8 +14,11 @@ class ArticleController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        //?range=0-25
+        $name = $request->input('range');
+        var_dump($name);
         return response()->json(Article::with("categorie")->get());
     }
 
@@ -27,9 +30,20 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        return response()->json(['error' => 'Unauthorized'], 401, ['X-Header-One' => 'Header Value']);
+        $article = Article::find($id);
+
+        if(empty($article))
+        {
+            return response()->json([
+                'message' => 'Article not found',
+            ], 404);            
+        }
+
+        return response()->json([
+            "data" => $article
+        ], 200);
     }
 
 
@@ -39,9 +53,9 @@ class ArticleController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-      
+
     }
 
 
@@ -53,7 +67,7 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
       
     }
