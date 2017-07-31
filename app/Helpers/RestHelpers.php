@@ -53,6 +53,45 @@ class RestHelpers
 
 
 	/**
+	 * Recherche dans un objet <request>, les parametres 'range, filtre, desc, sort, fields'.
+	 *
+	 * @param Request $request
+	 *     Ojet Request à analyser
+	 * @param Array<string> $autorizedFields
+	 *     List des champs autorisée
+	 *		
+	 * @return Array
+	 *     - val : resultat des recherches
+	 *     - valide : false si au moins un paramtres est en erreur
+	 *     - erreurs : listes des erreurs
+	**/
+	public static function contextSingle(Request $request, $autorizedFields)
+	{
+		$recherches = [
+			"fields" 	=> self::getFields($request, $autorizedFields)
+		];
+
+		$erreurs = [];
+		$valide = true;
+		foreach ($recherches as $recherche)
+		{
+			if(!$recherche["valide"])
+			{
+				$valide = false;
+			}
+
+			$erreurs += $recherche["erreurs"];
+		}
+
+		return [
+			"valide" => $valide,
+			"erreurs" => $erreurs,
+			"elements" => $recherches
+		];
+	}
+
+
+	/**
 	 * Recherche dans un objet <request>, le parametre 'range'.
 	 *
 	 * @param Request $request

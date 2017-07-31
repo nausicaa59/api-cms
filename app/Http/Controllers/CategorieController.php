@@ -27,20 +27,18 @@ class CategorieController extends Controller
     */
     public function index(Request $request)
     {
-        $context = RestHelpers::contextCollection($request, self::$AUTHORIZES_FIELDS);
-        if(!$context["valide"])
-        {
-            return response()->json([
-                'message' => 'Context non valide :',
-                "erreurs" => $context["erreurs"]
-            ], 405);            
-        }
+        $traitement = function($context) {
+            return Categorie::getAll($context["elements"]);
+        };
 
+        $options = [
+            "request" => $request,
+            "autorizedFields" => self::$AUTHORIZES_FIELDS,
+            "nofound" => "Aucune catégories trouvée(s) !",
+            "traitement" => $traitement
+        ];
 
-        return response()->json([
-            "context" => $context,
-            "data" => Categorie::getAll($context["elements"])
-        ]);
+        return $this->getCollection($options);
     }
 
 
@@ -52,7 +50,18 @@ class CategorieController extends Controller
     */
     public function show(Request $request, $id)
     {
+        $traitement = function($context) use($id) {
+            return Categorie::getSpecificFields($id, $context["elements"]);
+        };
+        
+        $options = [
+            "request" => $request,
+            "autorizedFields" => self::$AUTHORIZES_FIELDS,
+            "nofound" => "Aucune catégorie trouvée !",
+            "traitement" => $traitement
+        ];
 
+        return $this->getSingle($options);
     }
 
 

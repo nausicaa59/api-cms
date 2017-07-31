@@ -16,6 +16,14 @@ class RestModel extends Model
     }
 
 
+    public static function getSpecificFields($id, $context)
+    {
+        $obj = self::query();
+        $obj = self::addFields($obj, $context);
+        return $obj->find($id);
+    }
+
+
     public static function addLimit($query, $context)
     {
     	$range = $context["range"]["val"];
