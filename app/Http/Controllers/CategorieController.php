@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use RestHelpers;
+use RestResponse;
 use App\Categorie;
 use Illuminate\Http\Request;
 
@@ -27,18 +28,19 @@ class CategorieController extends Controller
     */
     public function index(Request $request)
     {
-        $traitement = function($context) {
-            return Categorie::getAll($context["elements"]);
-        };
+        $context = RestHelpers::contextCollection($request, self::$AUTHORIZES_FIELDS);
+        if(!$context["valide"])
+        {
+            return RestResponse::invalidateContext($context);
+        }
 
         $options = [
-            "request" => $request,
-            "autorizedFields" => self::$AUTHORIZES_FIELDS,
+            "context" => $context,
             "nofound" => "Aucune catégories trouvée(s) !",
-            "traitement" => $traitement
+            "data" => Categorie::getAll($context['elements'])
         ];
 
-        return $this->getCollection($options);
+        return RestResponse::data($options);
     }
 
 
@@ -50,18 +52,20 @@ class CategorieController extends Controller
     */
     public function show(Request $request, $id)
     {
-        $traitement = function($context) use($id) {
-            return Categorie::getSpecificFields($id, $context["elements"]);
-        };
-        
+        $context = RestHelpers::contextSingle($request, self::$AUTHORIZES_FIELDS);
+        if(!$context["valide"])
+        {
+            return RestResponse::invalidateContext($context);
+        }
+
         $options = [
-            "request" => $request,
-            "autorizedFields" => self::$AUTHORIZES_FIELDS,
+            "context" => $context,
             "nofound" => "Aucune catégorie trouvée !",
-            "traitement" => $traitement
+            "data" => Categorie::getSpecificFields($id, $context['elements'])
         ];
 
-        return $this->getSingle($options);
+
+        return RestResponse::data($options);
     }
 
 

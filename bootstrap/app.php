@@ -23,7 +23,10 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-$app->withFacades(true, ['App\Helpers\RestHelpers' => 'RestHelpers']);
+$app->withFacades(true, [
+	'App\Helpers\RestHelpers' => 'RestHelpers',
+	'App\Helpers\RestResponse' => 'RestResponse'
+]);
 $app->withEloquent();
 
 /*
